@@ -1,17 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="UTF-8">
-    <title>Portfolio de Pagnol Kouam</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Pagnol Kouam</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(180deg, #0a0a0f, #001f3f);
+        color: #e0e0e0;
+      }
+
+      header {
+        background-color: #00142a;
+        color: #4da6ff;
+        padding: 1.5rem 2rem;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        background-color: #00142a;
+        gap: 2rem;
+        padding: 1rem;
+        border-top: 1px solid #003366;
+        border-bottom: 1px solid #003366;
+      }
+
+      nav a {
+        color: #4da6ff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #66c2ff;
+      }
+
+      section {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: rgba(0, 20, 40, 0.7);
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      }
+
+      h2 {
+        color: #4da6ff;
+        border-bottom: 2px solid #003366;
+        padding-bottom: 0.5rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        margin: 0.8rem 0;
+        padding: 0.8rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 4px solid #4da6ff;
+        border-radius: 6px;
+        transition: background 0.3s;
+      }
+
+      li:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: #00142a;
+        color: #4da6ff;
+        font-size: 0.9rem;
+        border-top: 1px solid #003366;
+      }
+
+      .project-title {
+        font-weight: bold;
+        color: #66c2ff;
+      }
+
+      .contact a {
+        color: #66c2ff;
+        text-decoration: none;
+      }
+
+      .contact a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <h1>Bienvenue sur mon portfolio</h1>
-    <p>Je suis étudiant en cybersécurité et passionné par les systèmes, réseaux et le développement web.</p>
-    <h2>💻 Projets récents</h2>
-    <ul>
-      <li>🔐 Lab de cybersécurité (Snort, Nmap, Wireshark)</li>
-      <li>🌐 Application web interne – Django & SQLite</li>
-      <li>🛰️ Simulation réseau – Packet Tracer</li>
-    </ul>
+    <header>Portfolio de Pagnol Kouam</header>
+
+    <nav>
+      <a href="#about">À propos</a>
+      <a href="#projects">Projets</a>
+      <a href="#skills">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about">
+      <h2>À propos</h2>
+      <p>
+        Étudiant en ingénierie informatique au <strong>CESI École d’Ingénieurs</strong>,
+        spécialisé en <strong>cybersécurité</strong> et systèmes d’information. Passionné
+        par les réseaux, la programmation et la sécurité, je conçois et
+        expérimente divers projets pour renforcer mes compétences et explorer les
+        technologies modernes.
+      </p>
+    </section>
+
+    <section id="projects">
+      <h2>Mes Projets</h2>
+      <ul>
+        <li>
+          <span class="project-title">🔐 Sécurisation du réseau d’entreprise</span><br />
+          Mise en place d’un IDS avec Snort, surveillance du trafic via
+          Wireshark et analyse des logs.
+        </li>
+        <li>
+          <span class="project-title">🌐 Application web interne (Django & SQLite)</span><br />
+          Développement d’un portail interne de gestion des ressources
+          informatiques pour la CAMPOST.
+        </li>
+        <li>
+          <span class="project-title">🛰️ Lab réseau virtuel</span><br />
+          Configuration de topologies multi-routeurs sous Packet Tracer et
+          simulation d’attaques réseau pour l’étude de la sécurité TCP/IP.
+        </li>
+      </ul>
+    </section>
+
+    <section id="skills">
+      <h2>Compétences Techniques</h2>
+      <ul>
+        <li>💻 Systèmes : Linux (Ubuntu, Kali), Windows Server</li>
+        <li>🌐 Réseaux : TCP/IP, VLAN, routage, SNMP, supervision</li>
+        <li>⚙️ Sécurité : Wireshark, Nmap, Snort, Metasploit</li>
+        <li>🧠 Développement : Python, Django, HTML/CSS, SQLite</li>
+      </ul>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p>
+        📧 <a href="mailto:pkouammouaffo@gmail.com">pkouammouaffo@gmail.com</a><br />
+        🔗 <a href="https://www.linkedin.com/in/pagnolkouam" target="_blank"
+          >LinkedIn</a
+        ><br />
+        💼 <a href="https://github.com/pagnolkouam" target="_blank">GitHub</a>
+      </p>
+    </section>
+
+    <footer>
+      © 2025 - Portfolio de Pagnol Kouam | Conçu avec passion 💙🖤
+    </footer>
   </body>
 </html>
+
