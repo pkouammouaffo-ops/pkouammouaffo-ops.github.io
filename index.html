@@ -1,172 +1,385 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio - Pagnol Kouam</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(180deg, #0a0a0f, #001f3f);
-        color: #e0e0e0;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PAGNOL — Portfolio</title>
 
-      header {
-        background-color: #00142a;
-        color: #4da6ff;
-        padding: 1.5rem 2rem;
-        text-align: center;
-        font-size: 1.8rem;
-        font-weight: bold;
-        letter-spacing: 1px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-      }
+  <!--
+    Portfolio simple, clair, thème inspiré de ton modèle (blanc / bleu).
+    - Place ton avatar en images/avatar.png
+    - Ajoute des images de projets en images/project-1.jpg, project-2.jpg...
+    - Section "Divers & CTF" : ajoute des <figure> ici pour chaque capture/CTF.
+    - Compatible GitHub Pages : déposer ce fichier + dossier images/ dans le repo <username>.github.io
+  -->
 
-      nav {
-        display: flex;
-        justify-content: center;
-        background-color: #00142a;
-        gap: 2rem;
-        padding: 1rem;
-        border-top: 1px solid #003366;
-        border-bottom: 1px solid #003366;
-      }
+  <style>
+    /* ---------- Variables couleurs ---------- */
+    :root{
+      --bg: #ffffff;
+      --card: #fbfdff;
+      --muted: #6b7280;           /* gris texte second */
+      --text: #0f1724;            /* texte principal */
+      --accent: #1e90ff;          /* bleu accent */
+      --accent-dark: #0b63b8;
+      --glass: rgba(30,144,255,0.06);
+      --shadow: 0 8px 24px rgba(15,23,36,0.06);
+      --radius: 12px;
+    }
+    /* ---------- Reset simple ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, "Segoe UI", Roboto, system-ui, Arial;
+      background: linear-gradient(180deg,#f7fbff 0%, #ffffff 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+      padding-bottom:64px;
+    }
 
-      nav a {
-        color: #4da6ff;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s;
-      }
+    /* ---------- Container ---------- */
+    .wrap{
+      max-width:1100px;
+      margin:28px auto;
+      padding:28px;
+    }
 
-      nav a:hover {
-        color: #66c2ff;
-      }
+    /* ---------- Header ---------- */
+    header.site-header{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      padding:18px;
+      border-radius:16px;
+      background:linear-gradient(90deg, rgba(30,144,255,0.08), rgba(11,99,184,0.03));
+      box-shadow:var(--shadow);
+    }
+    .avatar{
+      width:110px;height:110px;border-radius:999px;flex:0 0 110px;
+      overflow:hidden;border:4px solid #fff;box-shadow:0 6px 18px rgba(15,23,36,0.08);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .hdr-info{flex:1}
+    .name{
+      font-weight:700;font-size:1.6rem;color:var(--text);
+      letter-spacing:0.6px;
+    }
+    .sub{
+      color:var(--muted);margin-top:6px;font-size:0.95rem;
+    }
+    .cta-row{
+      display:flex;gap:10px;align-items:center;
+    }
+    .pill{
+      padding:8px 12px;border-radius:999px;background:var(--accent);
+      color:#fff;font-weight:600;text-decoration:none;font-size:0.9rem;
+      box-shadow: 0 6px 18px rgba(30,144,255,0.12);
+    }
+    .links{display:flex;gap:8px;margin-top:10px}
+    .links a{color:var(--accent-dark);text-decoration:none;font-size:0.9rem}
 
-      section {
-        max-width: 900px;
-        margin: 2rem auto;
-        padding: 2rem;
-        background-color: rgba(0, 20, 40, 0.7);
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-      }
+    /* ---------- Layout grid ---------- */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:24px;
+      margin-top:22px;
+    }
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .avatar{width:88px;height:88px}
+    }
 
-      h2 {
-        color: #4da6ff;
-        border-bottom: 2px solid #003366;
-        padding-bottom: 0.5rem;
-      }
+    /* ---------- Main card ---------- */
+    .card{
+      background:var(--card);border-radius:var(--radius);padding:20px;
+      box-shadow:var(--shadow);
+      transition:transform .28s ease, box-shadow .28s ease, opacity .4s ease;
+      opacity:0;transform:translateY(12px);
+    }
+    /* visible class added by JS for fade-in */
+    .card.visible{opacity:1;transform:none}
 
-      ul {
-        list-style: none;
-        padding: 0;
-      }
+    h2{color:var(--accent);margin-bottom:12px}
+    p.lead{color:var(--muted);margin-bottom:8px}
 
-      li {
-        margin: 0.8rem 0;
-        padding: 0.8rem;
-        background-color: rgba(255, 255, 255, 0.05);
-        border-left: 4px solid #4da6ff;
-        border-radius: 6px;
-        transition: background 0.3s;
-      }
+    /* ---------- Projects ---------- */
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    @media (max-width:700px){ .projects-grid{grid-template-columns:1fr} }
 
-      li:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
+    .proj{
+      background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(15,23,36,0.04);
+      display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .proj:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(15,23,36,0.06)}
+    .proj .thumb{width:120px;height:78px;flex:0 0 120px;border-radius:8px;overflow:hidden;background:var(--glass)}
+    .proj .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .proj .meta{flex:1}
+    .proj .title{font-weight:700;color:var(--text)}
+    .proj .small{color:var(--muted);font-size:0.9rem;margin-top:6px}
 
-      footer {
-        text-align: center;
-        padding: 1.5rem;
-        background-color: #00142a;
-        color: #4da6ff;
-        font-size: 0.9rem;
-        border-top: 1px solid #003366;
-      }
+    /* ---------- Sidebar ---------- */
+    aside.side{
+      position:relative;
+    }
+    .card.side-card{padding:18px}
+    .skill{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+    .bar{height:8px;background:#e9f2ff;border-radius:999px;overflow:hidden;width:60%}
+    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));width:60%}
 
-      .project-title {
-        font-weight: bold;
-        color: #66c2ff;
-      }
+    /* ---------- Divers / CTF gallery ---------- */
+    .gallery{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .gallery figure{width:calc(50% - 5px);background:#fff;border-radius:8px;padding:6px;border:1px solid rgba(15,23,36,0.03)}
+    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:6px}
+    @media (max-width:700px){ .gallery figure{width:100%} }
 
-      .contact a {
-        color: #66c2ff;
-        text-decoration: none;
-      }
+    /* ---------- Footer ---------- */
+    footer{margin-top:26px;text-align:center;color:var(--muted);font-size:0.9rem}
 
-      .contact a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    <header>Portfolio de Pagnol Kouam</header>
+    /* ---------- Modal for project details ---------- */
+    .modal{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(2,6,23,0.55);padding:24px;z-index:999;opacity:0;pointer-events:none;
+      transition:opacity .18s ease;
+    }
+    .modal.open{opacity:1;pointer-events:auto}
+    .modal-content{
+      background:#fff;color:var(--text);max-width:900px;width:100%;border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.4)
+    }
+    .modal .close{float:right;background:transparent;border:0;font-size:18px;cursor:pointer;color:var(--muted)}
+    .meta-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .meta-list span{background:var(--glass);padding:6px 10px;border-radius:8px;color:var(--accent-dark);font-weight:600}
 
-    <nav>
-      <a href="#about">À propos</a>
-      <a href="#projects">Projets</a>
-      <a href="#skills">Compétences</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .mt8{margin-top:8px}
+  </style>
+</head>
 
-    <section id="about">
-      <h2>À propos</h2>
-      <p>
-        Étudiant en ingénierie informatique au <strong>CESI École d’Ingénieurs</strong>,
-        spécialisé en <strong>cybersécurité</strong> et systèmes d’information. Passionné
-        par les réseaux, la programmation et la sécurité, je conçois et
-        expérimente divers projets pour renforcer mes compétences et explorer les
-        technologies modernes.
-      </p>
-    </section>
+<body>
+  <div class="wrap">
+    <!-- Header + profile -->
+    <header class="site-header">
+      <div class="avatar">
+        <!-- Place your avatar image at images/avatar.png -->
+        <img src="images/avatar.png" alt="Avatar PAGNOL" />
+      </div>
 
-    <section id="projects">
-      <h2>Mes Projets</h2>
-      <ul>
-        <li>
-          <span class="project-title">🔐 Sécurisation du réseau d’entreprise</span><br />
-          Mise en place d’un IDS avec Snort, surveillance du trafic via
-          Wireshark et analyse des logs.
-        </li>
-        <li>
-          <span class="project-title">🌐 Application web interne (Django & SQLite)</span><br />
-          Développement d’un portail interne de gestion des ressources
-          informatiques pour la CAMPOST.
-        </li>
-        <li>
-          <span class="project-title">🛰️ Lab réseau virtuel</span><br />
-          Configuration de topologies multi-routeurs sous Packet Tracer et
-          simulation d’attaques réseau pour l’étude de la sécurité TCP/IP.
-        </li>
-      </ul>
-    </section>
+      <div class="hdr-info">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+          <div>
+            <div class="name">PAGNOL</div>
+            <div class="sub">Étudiant en ingénierie • Spécialisation Cybersécurité • CESI</div>
+            <div class="links mt8">
+              <!-- Change links to your profiles -->
+              <a href="https://www.linkedin.com/in/pagnolkouam" target="_blank">LinkedIn</a>
+              <a href="https://github.com/pagnolkouam" target="_blank">GitHub</a>
+            </div>
+          </div>
+          <div class="cta-row">
+            <!-- Optional CTA, kept subtle -->
+            <a class="pill" href="#projects">Mes projets</a>
+          </div>
+        </div>
 
-    <section id="skills">
-      <h2>Compétences Techniques</h2>
-      <ul>
-        <li>💻 Systèmes : Linux (Ubuntu, Kali), Windows Server</li>
-        <li>🌐 Réseaux : TCP/IP, VLAN, routage, SNMP, supervision</li>
-        <li>⚙️ Sécurité : Wireshark, Nmap, Snort, Metasploit</li>
-        <li>🧠 Développement : Python, Django, HTML/CSS, SQLite</li>
-      </ul>
-    </section>
+        <p class="lead mt8">J’enseigne et développe sur des sujets réseaux, sécurité et développement web. Mes projets montrent mes compétences pratiques (IDS, labs, applications Django).</p>
+      </div>
+    </header>
 
-    <section id="contact" class="contact">
-      <h2>Contact</h2>
-      <p>
-        📧 <a href="mailto:pkouammouaffo@gmail.com">pkouammouaffo@gmail.com</a><br />
-        🔗 <a href="https://www.linkedin.com/in/pagnolkouam" target="_blank"
-          >LinkedIn</a
-        ><br />
-        💼 <a href="https://github.com/pagnolkouam" target="_blank">GitHub</a>
-      </p>
-    </section>
+    <!-- Main grid: contenu + sidebar -->
+    <div class="grid">
+      <!-- PRIMARY COLUMN -->
+      <main>
+        <!-- About card -->
+        <section class="card visible" id="about">
+          <h2>À propos</h2>
+          <p>Étudiant ingénieur en cybersécurité, j’expérimente des solutions de supervision réseau, développe des applications internes et crée des labs pour la formation. Je rends l’informatique accessible via des projets pratiques.</p>
+        </section>
+
+        <!-- Projects card -->
+        <section class="card" id="projects" aria-labelledby="projects">
+          <h2>Projets récents</h2>
+          <div class="projects-grid" id="projectsGrid">
+            <!-- Project item : duplique et modifie pour ajouter un projet -->
+            <article class="proj" data-title="Sécurisation du réseau d'entreprise" data-desc="Déploiement d'un IDS Snort, analyse Wireshark et rapport d'incident. Technologies : Snort, Wireshark, Nmap." data-image="images/project-1.jpg">
+              <div class="thumb"><img src="images/project-1.jpg" alt="project 1" /></div>
+              <div class="meta">
+                <div class="title">🔐 Sécurisation réseau (Snort)</div>
+                <div class="small muted">Analyse trafic, IDS, rapports</div>
+              </div>
+            </article>
+
+            <article class="proj" data-title="Application interne (Django & SQLite)" data-desc="Portail interne pour la gestion des ressources informatiques. Authentification, CRUD, export CSV." data-image="images/project-2.jpg">
+              <div class="thumb"><img src="images/project-2.jpg" alt="project 2" /></div>
+              <div class="meta">
+                <div class="title">🌐 Portail interne (Django)</div>
+                <div class="small muted">App web, base SQLite</div>
+              </div>
+            </article>
+
+            <article class="proj" data-title="Lab réseau virtuel" data-desc="Topologies multi-site sur Packet Tracer, simulation d'attaques et monitoring." data-image="images/project-3.jpg">
+              <div class="thumb"><img src="images/project-3.jpg" alt="project 3" /></div>
+              <div class="meta">
+                <div class="title">🛰️ Lab réseau</div>
+                <div class="small muted">Packet Tracer, Wireshark</div>
+              </div>
+            </article>
+
+            <article class="proj" data-title="Mini-serveur Linux" data-desc="Déploiement d'un serveur LAMP, hébergement d'une application Django en dev." data-image="images/project-4.jpg">
+              <div class="thumb"><img src="images/project-4.jpg" alt="project 4" /></div>
+              <div class="meta">
+                <div class="title">🖥️ Mini-serveur Linux</div>
+                <div class="small muted">Ubuntu, Apache, scripts</div>
+              </div>
+            </article>
+            <!-- Fin items projets -->
+          </div>
+
+          <p class="mt8 muted">Clique sur une carte pour voir les détails du projet.</p>
+        </section>
+
+        <!-- Divers / CTF -->
+        <section class="card" id="divers">
+          <h2>Divers &amp; CTF</h2>
+          <p class="muted">Ici, ajoute des captures ou preuves de participation aux CTF / challenges. Pour ajouter : insère un <code>&lt;figure&gt;</code> dans la galerie ci-dessous avec une image et une légende.</p>
+
+          <div class="gallery" id="gallery">
+            <!-- Exemple d'élément : duplique pour ajouter -->
+            <figure>
+              <img src="images/ctf-1.jpg" alt="ctf 1">
+              <figcaption class="muted">CTF — Challenge web (writeup disponible)</figcaption>
+            </figure>
+
+            <figure>
+              <img src="images/ctf-2.jpg" alt="ctf 2">
+              <figcaption class="muted">CTF — Forensic (capture)</figcaption>
+            </figure>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- SIDEBAR -->
+      <aside class="side">
+        <div class="card side-card">
+          <h2>Compétences</h2>
+          <div class="skill"><strong>Linux</strong><div class="bar"><span style="width:85%"></span></div></div>
+          <div class="skill"><strong>Réseaux</strong><div class="bar"><span style="width:80%"></span></div></div>
+          <div class="skill"><strong>Sécurité</strong><div class="bar"><span style="width:78%"></span></div></div>
+          <div class="skill"><strong>Python / Django</strong><div class="bar"><span style="width:70%"></span></div></div>
+
+          <hr style="margin:12px 0;border:none;border-top:1px solid rgba(15,23,36,0.04)">
+
+          <h3 style="color:var(--accent)">Contact</h3>
+          <p class="muted">pkouammouaffo@gmail.com</p>
+          <p class="muted">+33 7 43 56 76 53</p>
+        </div>
+      </aside>
+    </div>
 
     <footer>
-      © 2025 - Portfolio de Pagnol Kouam | Conçu avec passion 💙🖤
+      <small>© 2025 PAGNOL — Portfolio • Conçu pour GitHub Pages</small>
     </footer>
-  </body>
+  </div>
+
+  <!-- ---------- Modal template for project details ---------- -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button class="close" id="modalClose" aria-label="close">✕</button>
+      <h3 id="modalTitle"></h3>
+      <div style="margin-top:8px"><img id="modalImg" src="" alt="" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px"></div>
+      <p id="modalDesc" style="margin-top:12px;color:var(--muted)"></p>
+      <div class="meta-list mt8" id="modalMeta"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ----------------- Small JS utilities -----------------
+       - Animation: fade-in cards when visible
+       - Project modal: open details when clicking a project card
+       - Smooth scroll for in-page links
+    -----------------------------------------------------*/
+
+    // Fade-in on scroll: add "visible" class when element in viewport
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, {threshold: 0.08});
+
+    document.querySelectorAll('.card').forEach(c => io.observe(c));
+
+    // Project modal
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImg = document.getElementById('modalImg');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalClose = document.getElementById('modalClose');
+
+    // When clicking a project card, read data-* attributes and open modal
+    document.querySelectorAll('.proj').forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.dataset.title || 'Projet';
+        const desc = card.dataset.desc || '';
+        const image = card.dataset.image || '';
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modalImg.src = image;
+        modalImg.alt = title;
+        // example tags - you can set data-tags if you want to show badges
+        modalMeta.innerHTML = '';
+        // open modal
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+      });
+    });
+
+    // Close modal handlers
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+
+    /* -------------- Tips for editing the page (comments) -------------
+      - To add a new project:
+        1) Duplicate one <article class="proj"> block inside #projectsGrid
+        2) Update data-title, data-desc and data-image attributes
+        3) Add the corresponding thumbnail image file in images/
+
+      - To add a CTF / screenshot:
+        1) Duplicate a <figure> inside .gallery and change src + caption
+
+      - To change avatar:
+        Replace images/avatar.png with your picture (prefer square, >=400px)
+
+      - To publish on GitHub Pages:
+        1) Create repo named <yourusername>.github.io
+        2) Push this file as index.html and an images/ folder
+        3) Wait ~1 min and visit https://<yourusername>.github.io
+
+      - For further customization:
+        edit CSS variables in :root (colors, radius, shadows)
+    -----------------------------------------------------------------*/
+  </script>
+</body>
 </html>
+
 
