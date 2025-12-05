@@ -1,385 +1,506 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PAGNOL — Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Cybersécurité & Réseau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Définition d'une police "pixelisée" pour l'effet "Guage" */
+        /* REMARQUE: Vous devez télécharger et lier une police pixel si vous souhaitez cet effet. 
+           Sinon, 'Courier New' ou 'monospace' est utilisé comme fallback. */
+        /* @font-face {
+            font-family: 'PixelEmulator';
+            src: url('votre-police-pixel.ttf') format('truetype');
+        } */
 
-  <!--
-    Portfolio simple, clair, thème inspiré de ton modèle (blanc / bleu).
-    - Place ton avatar en images/avatar.png
-    - Ajoute des images de projets en images/project-1.jpg, project-2.jpg...
-    - Section "Divers & CTF" : ajoute des <figure> ici pour chaque capture/CTF.
-    - Compatible GitHub Pages : déposer ce fichier + dossier images/ dans le repo <username>.github.io
-  -->
+        :root {
+            --color-main: #00FF00; /* Vert Néon */
+            --color-secondary: #FF00FF; /* Magenta Néon */
+            --color-background: #0A0A0A; /* Noir Profond */
+            --color-text: #FFFFFF;
+            --pixel-size: 2px;
+        }
 
-  <style>
-    /* ---------- Variables couleurs ---------- */
-    :root{
-      --bg: #ffffff;
-      --card: #fbfdff;
-      --muted: #6b7280;           /* gris texte second */
-      --text: #0f1724;            /* texte principal */
-      --accent: #1e90ff;          /* bleu accent */
-      --accent-dark: #0b63b8;
-      --glass: rgba(30,144,255,0.06);
-      --shadow: 0 8px 24px rgba(15,23,36,0.06);
-      --radius: 12px;
-    }
-    /* ---------- Reset simple ---------- */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family: Inter, "Segoe UI", Roboto, system-ui, Arial;
-      background: linear-gradient(180deg,#f7fbff 0%, #ffffff 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      line-height:1.5;
-      padding-bottom:64px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace, Arial, sans-serif; /* Fallback pixel */
+        }
 
-    /* ---------- Container ---------- */
-    .wrap{
-      max-width:1100px;
-      margin:28px auto;
-      padding:28px;
-    }
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-    /* ---------- Header ---------- */
-    header.site-header{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      padding:18px;
-      border-radius:16px;
-      background:linear-gradient(90deg, rgba(30,144,255,0.08), rgba(11,99,184,0.03));
-      box-shadow:var(--shadow);
-    }
-    .avatar{
-      width:110px;height:110px;border-radius:999px;flex:0 0 110px;
-      overflow:hidden;border:4px solid #fff;box-shadow:0 6px 18px rgba(15,23,36,0.08);
-    }
-    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
-    .hdr-info{flex:1}
-    .name{
-      font-weight:700;font-size:1.6rem;color:var(--text);
-      letter-spacing:0.6px;
-    }
-    .sub{
-      color:var(--muted);margin-top:6px;font-size:0.95rem;
-    }
-    .cta-row{
-      display:flex;gap:10px;align-items:center;
-    }
-    .pill{
-      padding:8px 12px;border-radius:999px;background:var(--accent);
-      color:#fff;font-weight:600;text-decoration:none;font-size:0.9rem;
-      box-shadow: 0 6px 18px rgba(30,144,255,0.12);
-    }
-    .links{display:flex;gap:8px;margin-top:10px}
-    .links a{color:var(--accent-dark);text-decoration:none;font-size:0.9rem}
+        /* ================== TYPOGRAPHIE PIXEL ================== */
 
-    /* ---------- Layout grid ---------- */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:24px;
-      margin-top:22px;
-    }
-    @media (max-width:900px){
-      .grid{grid-template-columns:1fr}
-      .avatar{width:88px;height:88px}
-    }
+        .pixel-text, .pixel-text-body, .pixel-text-title, .pixel-text-link {
+            font-family: 'PixelEmulator', 'Courier New', monospace;
+            /* Ombre portée subtile pour l'effet vieux moniteur */
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5); 
+        }
 
-    /* ---------- Main card ---------- */
-    .card{
-      background:var(--card);border-radius:var(--radius);padding:20px;
-      box-shadow:var(--shadow);
-      transition:transform .28s ease, box-shadow .28s ease, opacity .4s ease;
-      opacity:0;transform:translateY(12px);
-    }
-    /* visible class added by JS for fade-in */
-    .card.visible{opacity:1;transform:none}
+        .main-title {
+            font-size: 5rem;
+            color: var(--color-main);
+            text-shadow: 4px 4px 0 var(--color-secondary), 0 0 15px var(--color-main); /* Ombre et Néon */
+            letter-spacing: 0.5rem;
+            line-height: 1.2;
+        }
 
-    h2{color:var(--accent);margin-bottom:12px}
-    p.lead{color:var(--muted);margin-bottom:8px}
+        .sub-title {
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--color-secondary);
+        }
 
-    /* ---------- Projects ---------- */
-    .projects-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-    @media (max-width:700px){ .projects-grid{grid-template-columns:1fr} }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--color-main);
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 10px 0;
+            border-bottom: 3px dashed var(--color-secondary);
+            text-shadow: 0 0 10px var(--color-main);
+        }
 
-    .proj{
-      background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(15,23,36,0.04);
-      display:flex;gap:12px;align-items:flex-start;cursor:pointer;
-      transition:transform .18s ease, box-shadow .18s ease;
-    }
-    .proj:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(15,23,36,0.06)}
-    .proj .thumb{width:120px;height:78px;flex:0 0 120px;border-radius:8px;overflow:hidden;background:var(--glass)}
-    .proj .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .proj .meta{flex:1}
-    .proj .title{font-weight:700;color:var(--text)}
-    .proj .small{color:var(--muted);font-size:0.9rem;margin-top:6px}
+        .pixel-text-body {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #E0E0E0;
+        }
 
-    /* ---------- Sidebar ---------- */
-    aside.side{
-      position:relative;
-    }
-    .card.side-card{padding:18px}
-    .skill{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
-    .bar{height:8px;background:#e9f2ff;border-radius:999px;overflow:hidden;width:60%}
-    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));width:60%}
+        .pixel-text-title {
+            font-size: 1.2rem;
+            color: var(--color-main);
+            text-shadow: 0 0 5px var(--color-main);
+        }
+        
+        /* Effet GLITCH (clignotement) sur le titre principal */
+        .glitch {
+            position: relative;
+            animation: glitch-anim 2s infinite alternate;
+        }
+        @keyframes glitch-anim {
+            0% { transform: translate(0); opacity: 1; }
+            30% { transform: translate(-2px, 2px); opacity: 0.9; }
+            60% { transform: translate(4px, -4px); opacity: 1; }
+            100% { transform: translate(0); opacity: 0.95; }
+        }
 
-    /* ---------- Divers / CTF gallery ---------- */
-    .gallery{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-    .gallery figure{width:calc(50% - 5px);background:#fff;border-radius:8px;padding:6px;border:1px solid rgba(15,23,36,0.03)}
-    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:6px}
-    @media (max-width:700px){ .gallery figure{width:100%} }
 
-    /* ---------- Footer ---------- */
-    footer{margin-top:26px;text-align:center;color:var(--muted);font-size:0.9rem}
+        /* ================== STYLES GÉNÉRAUX/HÉRO ================== */
 
-    /* ---------- Modal for project details ---------- */
-    .modal{
-      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-      background:rgba(2,6,23,0.55);padding:24px;z-index:999;opacity:0;pointer-events:none;
-      transition:opacity .18s ease;
-    }
-    .modal.open{opacity:1;pointer-events:auto}
-    .modal-content{
-      background:#fff;color:var(--text);max-width:900px;width:100%;border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.4)
-    }
-    .modal .close{float:right;background:transparent;border:0;font-size:18px;cursor:pointer;color:var(--muted)}
-    .meta-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .meta-list span{background:var(--glass);padding:6px 10px;border-radius:8px;color:var(--accent-dark);font-weight:600}
+        .header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* small helpers */
-    .muted{color:var(--muted)}
-    .mt8{margin-top:8px}
-  </style>
+        /* Section Vidéo/Image (À MODIFIER PAR L'UTILISATEUR) */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.15; /* Rendre la vidéo discrète */
+            filter: grayscale(100%);
+        }
+
+        .hero-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.5) 100%); /* Overlay pour lisibilité */
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--color-main);
+            box-shadow: 0 0 10px var(--color-main);
+        }
+        .logo { font-size: 1.5rem; color: var(--color-main); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 30px; }
+        .nav-links a { text-decoration: none; color: var(--color-text); transition: color 0.3s; }
+        .nav-links a:hover { color: var(--color-secondary); }
+
+        /* Liens Sociaux */
+        .social-links a {
+            color: var(--color-secondary);
+            font-size: 2rem;
+            margin: 0 15px;
+            transition: color 0.3s;
+            display: inline-block;
+            padding: 10px;
+        }
+        .social-links a:hover {
+            color: var(--color-main);
+            text-shadow: 0 0 10px var(--color-main);
+        }
+
+        /* ================== BORDURES PIXEL/NÉON ================== */
+        .pixel-border {
+            border: 3px solid var(--color-main);
+            box-shadow: 0 0 10px var(--color-main); /* Effet Néon */
+            background-color: rgba(25, 25, 25, 0.8);
+            padding: 20px;
+        }
+
+        /* ================== SECTIONS ================== */
+
+        main {
+            padding: 50px 8%;
+        }
+        .section {
+            padding: 60px 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- SEGMENT À PROPOS --- */
+        .about-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-image-wrapper {
+            flex: 0 0 350px; /* Taille fixe */
+            text-align: center;
+        }
+        .profile-photo {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 4px solid var(--color-secondary);
+            box-shadow: 0 0 15px var(--color-secondary);
+        }
+        .about-text-wrapper {
+            flex: 1;
+            padding-left: 40px;
+            border-left: 3px dashed var(--color-main);
+        }
+
+        /* --- SEGMENT PROJETS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 20px var(--color-secondary);
+            border-color: var(--color-secondary);
+        }
+        .project-icon-wrapper {
+            font-size: 3rem;
+            color: var(--color-secondary);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--color-secondary);
+        }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-top: 10px;
+            border: 2px solid var(--color-main);
+        }
+
+        /* --- PIED DE PAGE --- */
+        .footer {
+            padding: 20px 50px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 3px solid var(--color-main);
+        }
+        .footer p {
+            color: var(--color-text);
+            font-size: 0.9rem;
+        }
+
+        /* ================== MODALE (POPUP) (Nécessite JS) ================== */
+        .modal {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            background-color: var(--color-background);
+            margin: 5% auto; /* 15% du haut et centré horizontalement */
+            padding: 20px;
+            width: 80%;
+            max-width: 900px;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        @keyframes animatetop {
+            from {top:-300px; opacity:0} 
+            to {top:0; opacity:1}
+        }
+        .close-button {
+            color: var(--color-main);
+            float: right;
+            font-size: 40px;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--color-main);
+            line-height: 1;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--color-secondary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .modal-gallery img {
+            width: 30%;
+            margin: 10px 1.5%;
+            height: auto;
+            border: 2px solid var(--color-secondary);
+        }
+        
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .main-title { font-size: 3rem; }
+            .sub-title { font-size: 1rem; }
+            .nav { padding: 15px 20px; }
+            .nav-links { display: none; /* Simplification pour mobile */ }
+            .about-container { flex-direction: column; }
+            .about-image-wrapper { flex: 0 0 auto; max-width: 80%; }
+            .about-text-wrapper { padding-left: 0; border-left: none; border-top: 3px dashed var(--color-main); padding-top: 20px; margin-top: 20px; }
+            main { padding: 30px 5%; }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <!-- Header + profile -->
-    <header class="site-header">
-      <div class="avatar">
-        <!-- Place your avatar image at images/avatar.png -->
-        <img src="images/avatar.png" alt="Avatar PAGNOL" />
-      </div>
 
-      <div class="hdr-info">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
-          <div>
-            <div class="name">PAGNOL</div>
-            <div class="sub">Étudiant en ingénierie • Spécialisation Cybersécurité • CESI</div>
-            <div class="links mt8">
-              <!-- Change links to your profiles -->
-              <a href="https://www.linkedin.com/in/pagnolkouam" target="_blank">LinkedIn</a>
-              <a href="https://github.com/pagnolkouam" target="_blank">GitHub</a>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <span class="pixel-text">C|R</span>
             </div>
-          </div>
-          <div class="cta-row">
-            <!-- Optional CTA, kept subtle -->
-            <a class="pill" href="#projects">Mes projets</a>
-          </div>
+            <ul class="nav-links">
+                <li><a href="#accueil" class="pixel-text">ACCUEIL</a></li>
+                <li><a href="#a-propos" class="pixel-text">À PROPOS</a></li>
+                <li><a href="#projets" class="pixel-text">PROJETS</a></li>
+                <li><a href="#contact" class="pixel-text">CONTACT</a></li>
+            </ul>
+        </nav>
+        
+        <div class="hero-section">
+            <video autoplay muted loop id="video-bg" class="video-background">
+                <source src="votre-video-tech-en-boucle.mp4" type="video/mp4">
+            </video>
+            
+            <div class="hero-content">
+                <h1 class="main-title pixel-text glitch" data-text="CYBERSÉCURITÉ">CYBERSÉCURITÉ</h1>
+                <h2 class="sub-title pixel-text">RÉSEAU & INFRASTRUCTURE</h2>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
         </div>
-
-        <p class="lead mt8">J’enseigne et développe sur des sujets réseaux, sécurité et développement web. Mes projets montrent mes compétences pratiques (IDS, labs, applications Django).</p>
-      </div>
     </header>
 
-    <!-- Main grid: contenu + sidebar -->
-    <div class="grid">
-      <!-- PRIMARY COLUMN -->
-      <main>
-        <!-- About card -->
-        <section class="card visible" id="about">
-          <h2>À propos</h2>
-          <p>Étudiant ingénieur en cybersécurité, j’expérimente des solutions de supervision réseau, développe des applications internes et crée des labs pour la formation. Je rends l’informatique accessible via des projets pratiques.</p>
+    <main>
+        <section id="a-propos" class="section">
+            <h3 class="section-title pixel-text">| ACCÈS : IDENTITÉ.EXE |</h3>
+            <div class="about-container">
+                <div class="about-image-wrapper">
+                    <img src="votre-photo.jpg" alt="Votre Photo de Profil" class="profile-photo">
+                </div>
+                <div class="about-text-wrapper">
+                    <p class="pixel-text-body">
+                        Bienvenue dans mon interface de commandes. Je suis un(e) étudiant(e) passionné(e) par la Cybersécurité et les Réseaux, constamment à la recherche de nouvelles vulnérabilités et d'infrastructures à optimiser.
+                    </p>
+                    <p class="pixel-text-body">
+                        Mon parcours m'a permis de développer une expertise solide en gestion de pare-feu, en détection d'intrusions (IDS/IPS) et en configuration de routeurs Cisco. Je crois fermement que la sécurité n'est pas un produit, mais un processus.
+                    </p>
+                    <p class="pixel-text-body">
+                        Je suis à la recherche d'un stage de [Durée] dans la région [Région] pour mettre mes compétences en pratique sur des cas concrets et évoluer au sein d'une équipe dynamique.
+                    </p>
+                </div>
+            </div>
         </section>
 
-        <!-- Projects card -->
-        <section class="card" id="projects" aria-labelledby="projects">
-          <h2>Projets récents</h2>
-          <div class="projects-grid" id="projectsGrid">
-            <!-- Project item : duplique et modifie pour ajouter un projet -->
-            <article class="proj" data-title="Sécurisation du réseau d'entreprise" data-desc="Déploiement d'un IDS Snort, analyse Wireshark et rapport d'incident. Technologies : Snort, Wireshark, Nmap." data-image="images/project-1.jpg">
-              <div class="thumb"><img src="images/project-1.jpg" alt="project 1" /></div>
-              <div class="meta">
-                <div class="title">🔐 Sécurisation réseau (Snort)</div>
-                <div class="small muted">Analyse trafic, IDS, rapports</div>
-              </div>
-            </article>
+        <section id="projets" class="section projects-section">
+            <h3 class="section-title pixel-text">| PROJETS : BASE DE DONNÉES |</h3>
+            <div class="projects-grid">
+                
+                <div class="project-card pixel-border" data-project="projet1">
+                    <div class="project-icon-wrapper"><i class="fas fa-shield-alt"></i></div>
+                    <div class="project-content">
+                        <h4 class="pixel-text-title">Réseau Sécurisé (VPN)</h4>
+                        <img src="image-projet-1.jpg" alt="Illustration Projet 1" class="project-image">
+                    </div>
+                </div>
 
-            <article class="proj" data-title="Application interne (Django & SQLite)" data-desc="Portail interne pour la gestion des ressources informatiques. Authentification, CRUD, export CSV." data-image="images/project-2.jpg">
-              <div class="thumb"><img src="images/project-2.jpg" alt="project 2" /></div>
-              <div class="meta">
-                <div class="title">🌐 Portail interne (Django)</div>
-                <div class="small muted">App web, base SQLite</div>
-              </div>
-            </article>
+                <div class="project-card pixel-border" data-project="projet2">
+                    <div class="project-icon-wrapper"><i class="fas fa-bug"></i></div>
+                    <div class="project-content">
+                        <h4 class="pixel-text-title">Audit Pentest WebApp</h4>
+                        <img src="image-projet-2.jpg" alt="Illustration Projet 2" class="project-image">
+                    </div>
+                </div>
 
-            <article class="proj" data-title="Lab réseau virtuel" data-desc="Topologies multi-site sur Packet Tracer, simulation d'attaques et monitoring." data-image="images/project-3.jpg">
-              <div class="thumb"><img src="images/project-3.jpg" alt="project 3" /></div>
-              <div class="meta">
-                <div class="title">🛰️ Lab réseau</div>
-                <div class="small muted">Packet Tracer, Wireshark</div>
-              </div>
-            </article>
-
-            <article class="proj" data-title="Mini-serveur Linux" data-desc="Déploiement d'un serveur LAMP, hébergement d'une application Django en dev." data-image="images/project-4.jpg">
-              <div class="thumb"><img src="images/project-4.jpg" alt="project 4" /></div>
-              <div class="meta">
-                <div class="title">🖥️ Mini-serveur Linux</div>
-                <div class="small muted">Ubuntu, Apache, scripts</div>
-              </div>
-            </article>
-            <!-- Fin items projets -->
-          </div>
-
-          <p class="mt8 muted">Clique sur une carte pour voir les détails du projet.</p>
+                <div class="project-card pixel-border" data-project="projet3">
+                    <div class="project-icon-wrapper"><i class="fas fa-hdd"></i></div>
+                    <div class="project-content">
+                        <h4 class="pixel-text-title">Configuration Serveur NAS</h4>
+                        <img src="image-projet-3.jpg" alt="Illustration Projet 3" class="project-image">
+                    </div>
+                </div>
+                
+                <div class="project-card pixel-border" data-project="projet4">
+                    <div class="project-icon-wrapper"><i class="fas fa-terminal"></i></div>
+                    <div class="project-content">
+                        <h4 class="pixel-text-title">Script d'Automatisation Python</h4>
+                        <img src="image-projet-4.jpg" alt="Illustration Projet 4" class="project-image">
+                    </div>
+                </div>
+                
+                </div>
+        </section>
+        
+        <section id="contact" class="section">
+             <h3 class="section-title pixel-text">| ACCÈS CONTACT |</h3>
+             <p class="pixel-text-body" style="text-align: center;">Envoyez votre message crypté à : <a href="mailto:votre.email@domaine.fr" class="pixel-text-link">votre.email@domaine.fr</a></p>
         </section>
 
-        <!-- Divers / CTF -->
-        <section class="card" id="divers">
-          <h2>Divers &amp; CTF</h2>
-          <p class="muted">Ici, ajoute des captures ou preuves de participation aux CTF / challenges. Pour ajouter : insère un <code>&lt;figure&gt;</code> dans la galerie ci-dessous avec une image et une légende.</p>
-
-          <div class="gallery" id="gallery">
-            <!-- Exemple d'élément : duplique pour ajouter -->
-            <figure>
-              <img src="images/ctf-1.jpg" alt="ctf 1">
-              <figcaption class="muted">CTF — Challenge web (writeup disponible)</figcaption>
-            </figure>
-
-            <figure>
-              <img src="images/ctf-2.jpg" alt="ctf 2">
-              <figcaption class="muted">CTF — Forensic (capture)</figcaption>
-            </figure>
-          </div>
-        </section>
-
-      </main>
-
-      <!-- SIDEBAR -->
-      <aside class="side">
-        <div class="card side-card">
-          <h2>Compétences</h2>
-          <div class="skill"><strong>Linux</strong><div class="bar"><span style="width:85%"></span></div></div>
-          <div class="skill"><strong>Réseaux</strong><div class="bar"><span style="width:80%"></span></div></div>
-          <div class="skill"><strong>Sécurité</strong><div class="bar"><span style="width:78%"></span></div></div>
-          <div class="skill"><strong>Python / Django</strong><div class="bar"><span style="width:70%"></span></div></div>
-
-          <hr style="margin:12px 0;border:none;border-top:1px solid rgba(15,23,36,0.04)">
-
-          <h3 style="color:var(--accent)">Contact</h3>
-          <p class="muted">pkouammouaffo@gmail.com</p>
-          <p class="muted">+33 7 43 56 76 53</p>
-        </div>
-      </aside>
-    </div>
-
-    <footer>
-      <small>© 2025 PAGNOL — Portfolio • Conçu pour GitHub Pages</small>
+    </main>
+    
+    <footer class="footer">
+        <p class="pixel-text">Système Opérationnel V1.0 - 2025 - Tous droits réservés. <span style="color: var(--color-secondary);">Code Généré par Gemini.</span></p>
     </footer>
-  </div>
 
-  <!-- ---------- Modal template for project details ---------- -->
-  <div id="modal" class="modal" role="dialog" aria-hidden="true">
-    <div class="modal-content" role="document">
-      <button class="close" id="modalClose" aria-label="close">✕</button>
-      <h3 id="modalTitle"></h3>
-      <div style="margin-top:8px"><img id="modalImg" src="" alt="" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px"></div>
-      <p id="modalDesc" style="margin-top:12px;color:var(--muted)"></p>
-      <div class="meta-list mt8" id="modalMeta"></div>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content pixel-border">
+            <span class="close-button">&times;</span>
+            <h4 id="modalTitle" class="pixel-text-title modal-title">Détails du Projet (Cliquez pour Fermer)</h4>
+            <div class="modal-body">
+                <img id="modalMainImage" src="placeholder.jpg" alt="Image Principale du Projet" class="modal-image">
+                <p id="modalDescription" class="pixel-text-body modal-description">
+                    **Pour que ce popup fonctionne correctement**, vous devez ajouter le code JavaScript qui gère l'ouverture de la fenêtre modale et l'injection du contenu de chaque projet (images, description). 
+                    Pour l'instant, c'est juste la structure HTML/CSS.
+                </p>
+                <div id="modalGallery" class="modal-gallery">
+                    </div>
+            </div>
+        </div>
     </div>
-  </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('projectModal');
+            const closeBtn = document.querySelector('.close-button');
+            const projectCards = document.querySelectorAll('.project-card');
 
-  <script>
-    /* ----------------- Small JS utilities -----------------
-       - Animation: fade-in cards when visible
-       - Project modal: open details when clicking a project card
-       - Smooth scroll for in-page links
-    -----------------------------------------------------*/
+            // Données statiques des projets (à personnaliser)
+            const projectsData = {
+                projet1: {
+                    title: "Réseau Sécurisé (VPN)",
+                    mainImage: "image-projet-1.jpg",
+                    description: "Mise en place d'un tunnel VPN Site-to-Site pour sécuriser les communications entre deux réseaux distants. Utilisation d'OpenVPN et gestion des clés cryptographiques.",
+                    gallery: ["img-p1-1.jpg", "img-p1-2.jpg"]
+                },
+                projet2: {
+                    title: "Audit Pentest WebApp",
+                    mainImage: "image-projet-2.jpg",
+                    description: "Audit de sécurité d'une application web à l'aide d'outils comme Burp Suite. Identification et correction des failles XSS et SQL Injection.",
+                    gallery: ["img-p2-1.jpg", "img-p2-2.jpg"]
+                },
+                projet3: {
+                    title: "Configuration Serveur NAS",
+                    mainImage: "image-projet-3.jpg",
+                    description: "Déploiement d'un serveur NAS sous FreeNAS/TrueNAS pour le stockage centralisé et la sauvegarde des données. Configuration RAID et gestion des permissions d'accès.",
+                    gallery: ["img-p3-1.jpg", "img-p3-2.jpg"]
+                },
+                projet4: {
+                    title: "Script d'Automatisation Python",
+                    mainImage: "image-projet-4.jpg",
+                    description: "Création d'un script Python pour automatiser la vérification de logs de sécurité et générer des rapports quotidiens, réduisant le temps d'analyse de 50%.",
+                    gallery: ["img-p4-1.jpg", "img-p4-2.jpg"]
+                }
+            };
 
-    // Fade-in on scroll: add "visible" class when element in viewport
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, {threshold: 0.08});
+            // Fonction pour ouvrir la modale
+            projectCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-project');
+                    const data = projectsData[projectId];
 
-    document.querySelectorAll('.card').forEach(c => io.observe(c));
+                    document.getElementById('modalTitle').textContent = data.title;
+                    document.getElementById('modalMainImage').src = data.mainImage;
+                    document.getElementById('modalDescription').textContent = data.description;
 
-    // Project modal
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalImg = document.getElementById('modalImg');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalMeta = document.getElementById('modalMeta');
-    const modalClose = document.getElementById('modalClose');
+                    // Génération de la galerie
+                    const gallery = document.getElementById('modalGallery');
+                    gallery.innerHTML = '';
+                    data.gallery.forEach(imgSrc => {
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.alt = data.title + " - Image secondaire";
+                        gallery.appendChild(img);
+                    });
 
-    // When clicking a project card, read data-* attributes and open modal
-    document.querySelectorAll('.proj').forEach(card => {
-      card.addEventListener('click', () => {
-        const title = card.dataset.title || 'Projet';
-        const desc = card.dataset.desc || '';
-        const image = card.dataset.image || '';
-        modalTitle.textContent = title;
-        modalDesc.textContent = desc;
-        modalImg.src = image;
-        modalImg.alt = title;
-        // example tags - you can set data-tags if you want to show badges
-        modalMeta.innerHTML = '';
-        // open modal
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden','false');
-      });
-    });
+                    modal.style.display = "block";
+                });
+            });
 
-    // Close modal handlers
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    function closeModal(){
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden','true');
-    }
-
-    // Smooth scroll for nav links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
-      });
-    });
-
-    /* -------------- Tips for editing the page (comments) -------------
-      - To add a new project:
-        1) Duplicate one <article class="proj"> block inside #projectsGrid
-        2) Update data-title, data-desc and data-image attributes
-        3) Add the corresponding thumbnail image file in images/
-
-      - To add a CTF / screenshot:
-        1) Duplicate a <figure> inside .gallery and change src + caption
-
-      - To change avatar:
-        Replace images/avatar.png with your picture (prefer square, >=400px)
-
-      - To publish on GitHub Pages:
-        1) Create repo named <yourusername>.github.io
-        2) Push this file as index.html and an images/ folder
-        3) Wait ~1 min and visit https://<yourusername>.github.io
-
-      - For further customization:
-        edit CSS variables in :root (colors, radius, shadows)
-    -----------------------------------------------------------------*/
-  </script>
+            // Fonction pour fermer la modale
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-
-
